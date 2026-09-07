@@ -7,6 +7,7 @@ import { AuthProvider } from './hooks/useAuth';
 import { LabelDetailPage } from './pages/LabelDetailPage';
 import { LabelsPage } from './pages/LabelsPage';
 import { LoginPage } from './pages/LoginPage';
+import { NewLabelPage } from './pages/NewLabelPage';
 import { RegisterPage } from './pages/RegisterPage';
 
 createRoot(document.getElementById('app')!).render(
@@ -19,6 +20,7 @@ createRoot(document.getElementById('app')!).render(
                     <Route element={<RequireAuth />}>
                         <Route element={<Layout />}>
                             <Route path="/labels" element={<LabelsPage />} />
+                            <Route path="/labels/new" element={<NewLabelPage />} />
                             <Route path="/labels/:id" element={<LabelDetailPage />} />
                         </Route>
                     </Route>
