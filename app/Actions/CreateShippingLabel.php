@@ -7,6 +7,7 @@ use App\Exceptions\NoUspsRateException;
 use App\Models\ShippingLabel;
 use App\Models\User;
 use App\Services\EasyPost\EasyPostClient;
+use App\Services\EasyPost\Exceptions\EasyPostException;
 use App\Services\EasyPost\RateSelector;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -63,7 +64,8 @@ class CreateShippingLabel
                 'user_id' => $user->id,
                 'shipment_id' => $bought['id'],
                 'label_url' => $bought['postage_label']['label_url'] ?? null,
-                'reason' => $e->getMessage(),
+                'status' => $e instanceof EasyPostException ? $e->status : null,
+                'exception' => $e::class,
             ]);
 
             throw new LabelNotPersistedException($bought['id'], $e);
