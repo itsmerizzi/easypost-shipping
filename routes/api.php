@@ -17,5 +17,8 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
+    Route::get('/labels', [LabelController::class, 'index']);
     Route::post('/labels', [LabelController::class, 'store']);
+    Route::get('/labels/{label}', [LabelController::class, 'show'])->whereNumber('label');
+    Route::get('/labels/{label}/download', [LabelController::class, 'download'])->whereNumber('label');
 });
