@@ -2,6 +2,5 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Everything that is not the API, Sanctum or the health check is the React app.
+Route::view('/{any?}', 'app')->where('any', '^(?!api|sanctum|up).*$');

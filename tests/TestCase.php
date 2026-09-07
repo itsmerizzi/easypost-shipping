@@ -10,6 +10,8 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        $this->withoutVite();
+
         // Sanctum only starts a session for requests coming from a stateful frontend.
         $this->withHeader('Referer', config('app.url'));
     }
