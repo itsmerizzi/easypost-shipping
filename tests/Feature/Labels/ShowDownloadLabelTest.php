@@ -41,6 +41,15 @@ class ShowDownloadLabelTest extends TestCase
         $this->assertSame('%PDF-1.4 fake', $response->streamedContent());
     }
 
+    public function test_download_is_404_when_the_stored_file_is_missing(): void
+    {
+        Storage::fake('local');
+        $user = User::factory()->create();
+        $label = ShippingLabel::factory()->for($user)->create(['label_file_path' => "labels/{$user->id}/missing.pdf"]);
+
+        $this->actingAs($user)->getJson("/api/labels/{$label->id}/download")->assertNotFound();
+    }
+
     public function test_another_user_gets_403(): void
     {
         Storage::fake('local');

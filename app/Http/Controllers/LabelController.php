@@ -40,6 +40,8 @@ class LabelController extends Controller
     {
         Gate::authorize('view', $label);
 
+        abort_unless(Storage::disk('local')->exists($label->label_file_path), 404, 'Label file not found.');
+
         return Storage::disk('local')->response(
             $label->label_file_path,
             "label-{$label->id}.pdf",
