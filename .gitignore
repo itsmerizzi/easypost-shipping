@@ -28,3 +28,6 @@ Thumbs.db
 
 # Take-home assignment brief (company material)
 *.pdf
+
+# private working notes
+/DECISIONS.md
