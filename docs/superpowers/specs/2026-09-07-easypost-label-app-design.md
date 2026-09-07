@@ -221,8 +221,9 @@ in a new tab; the browser's PDF viewer handles printing.
 - `EasyPostClient` constructor reads `services.easypost.*` and throws a `RuntimeException`
   if the key is empty (fail fast, clear log line).
 - Every call uses `timeout(15)`; the two JSON calls also use `acceptJson()`.
-- Retry: `retry(2, 200)` on `createShipment` and `downloadLabel` only. **No retry on
-  `buyShipment`**: a lost response followed by a retry would buy the same label twice.
+- Retry: up to 3 attempts (`retry(3, 200)`, i.e. two retries — Laravel's `retry($times)` counts total attempts) on
+  `createShipment` and `downloadLabel` only. **No retry on `buyShipment`**: a lost response followed by a retry would
+  buy the same label twice.
 - Any non-2xx or transport failure becomes `EasyPostException` carrying the HTTP status,
   EasyPost's `error.message`, and the raw body.
 - Label format: `options.label_format = "PDF"` at creation (4x6 label embedded in an
