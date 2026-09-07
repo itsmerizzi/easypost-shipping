@@ -75,7 +75,7 @@ export function LabelDetailPage() {
                         {label.currency} {label.rate} · created {new Date(label.created_at).toLocaleString()}
                     </p>
                 </div>
-                <a href={labelDownloadUrl(label.id)} target="_blank" rel="noopener noreferrer">
+                <a href={labelDownloadUrl(label.id)} target="_blank" rel="noopener">
                     <Button>View / Print label</Button>
                 </a>
             </div>
