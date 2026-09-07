@@ -19,6 +19,7 @@ export function LabelsPage() {
     useEffect(() => {
         let cancelled = false;
         setResult(null);
+        setError(null);
         listLabels(page)
             .then((data) => {
                 if (!cancelled) setResult(data);

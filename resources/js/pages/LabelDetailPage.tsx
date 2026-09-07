@@ -30,9 +30,19 @@ export function LabelDetailPage() {
 
     useEffect(() => {
         if (!id) return;
+        let cancelled = false;
+        setLabel(null);
+        setError(null);
         showLabel(id)
-            .then(setLabel)
-            .catch((e) => setError(extractApiError(e).message));
+            .then((data) => {
+                if (!cancelled) setLabel(data);
+            })
+            .catch((e) => {
+                if (!cancelled) setError(extractApiError(e).message);
+            });
+        return () => {
+            cancelled = true;
+        };
     }, [id]);
 
     if (error) {
