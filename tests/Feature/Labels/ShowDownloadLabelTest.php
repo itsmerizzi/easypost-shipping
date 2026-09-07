@@ -65,4 +65,18 @@ class ShowDownloadLabelTest extends TestCase
         $this->getJson("/api/labels/{$label->id}")->assertUnauthorized();
         $this->getJson("/api/labels/{$label->id}/download")->assertUnauthorized();
     }
+
+    public function test_guest_browser_navigation_to_download_is_redirected_to_login(): void
+    {
+        $label = ShippingLabel::factory()->create();
+
+        $this->get("/api/labels/{$label->id}/download")->assertRedirect('/login');
+    }
+
+    public function test_guest_json_request_to_download_is_401(): void
+    {
+        $label = ShippingLabel::factory()->create();
+
+        $this->getJson("/api/labels/{$label->id}/download")->assertUnauthorized();
+    }
 }

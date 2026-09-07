@@ -17,10 +17,14 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->statefulApi();
+        $middleware->redirectGuestsTo('/login');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // JSON for API clients; a browser navigation (Accept: text/html) to a protected
+        // API route is redirected to the SPA login page instead of getting a JSON body.
         $exceptions->shouldRenderJsonWhen(
-            fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
+            fn (Request $request) => $request->expectsJson()
+                || ($request->is('api/*') && ! $request->acceptsHtml()),
         );
 
         // Provider 5xx/401/403/transport failures are still reported (logged) by the handler.
