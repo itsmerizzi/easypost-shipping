@@ -28,6 +28,7 @@ Thumbs.db
 
 # Take-home assignment brief (company material)
 *.pdf
+!tests/Fixtures/easypost/label.pdf
 
 # private working notes
 /DECISIONS.md
