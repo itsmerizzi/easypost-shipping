@@ -13,7 +13,7 @@ Prerequisites: PHP 8.3+, Composer, Node 20+, Docker (for MySQL) and an EasyPost 
 ```bash
 cp .env.example .env            # then set EASYPOST_API_KEY=<your EasyPost test key>
 composer install && npm install
-docker compose up -d            # MySQL 8.4 on 127.0.0.1:3306 (creates the app and test databases)
+docker compose up -d --wait     # MySQL 8.4 on 127.0.0.1:3306 (creates the app and test databases)
 php artisan key:generate
 php artisan migrate --seed      # creates the demo user
 composer run dev                # Laravel on http://localhost:8000 + Vite dev server
@@ -27,13 +27,14 @@ database (and `take_home_project_test` if you want to run the tests), then run t
 ### Running the tests
 
 ```bash
-docker compose up -d
+docker compose up -d --wait
 php artisan test            # PHPUnit: auth, label purchase (EasyPost faked), history, isolation
 npm run typecheck           # tsc --noEmit
 npm run build
 ```
 
 Tests never call EasyPost: every request is faked with `Http::fake()` and JSON fixtures in `tests/Fixtures/easypost/`.
+`phpunit.xml` sets a fake `EASYPOST_API_KEY`, so the suite does not depend on the key in `.env`.
 
 ## How it works
 
